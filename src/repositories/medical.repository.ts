@@ -118,11 +118,16 @@ export class MedicationRepository extends BaseRepository<Medication> {
     await this.runQuery(sql, [droneId]);
   }
 
+  async deleteAll(): Promise<void> {
+    const sql = "DELETE FROM medications";
+    await this.runQuery(sql);
+  }
+
   private mapRowToMedication(row: any): Medication {
     return {
       id: row.id,
       name: row.name,
-      weight: row.weight,
+      weight: parseFloat(row.weight),
       code: row.code,
       image: row.image,
       droneId: row.droneId,

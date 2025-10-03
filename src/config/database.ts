@@ -1,13 +1,20 @@
 import { Database } from 'sqlite3';
 import path from 'path';
+import fs from 'fs';
 
-const dbPath = path.join(__dirname, '../../data/drones.db');
+const dbPath = path.join(process.cwd(), 'data', 'drones.db');
+
+// Ensure data directory exists
+const dataDir = path.dirname(dbPath);
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir, { recursive: true });
+}
 
 export const db = new Database(dbPath, (err) => {
   if (err) {
     console.error('Error opening database:', err.message);
   } else {
-    console.log('Connected to SQLite database.');
+    console.log('✅ Connected to SQLite database:', dbPath);
     initializeDatabase();
   }
 });
@@ -27,13 +34,13 @@ function initializeDatabase() {
     )
   `);
 
-  // Create medications table
+  // Create medications table - REMOVED REGEXP constraints
   db.run(`
     CREATE TABLE IF NOT EXISTS medications (
       id TEXT PRIMARY KEY,
-      name TEXT NOT NULL CHECK(name REGEXP '^[a-zA-Z0-9\-_]+$'),
+      name TEXT NOT NULL,
       weight REAL NOT NULL CHECK(weight > 0),
-      code TEXT NOT NULL CHECK(code REGEXP '^[A-Z0-9_]+$'),
+      code TEXT NOT NULL,
       image TEXT NOT NULL,
       droneId TEXT,
       createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -58,4 +65,6 @@ function initializeDatabase() {
   db.run('CREATE INDEX IF NOT EXISTS idx_drones_battery ON drones(batteryCapacity)');
   db.run('CREATE INDEX IF NOT EXISTS idx_medications_droneId ON medications(droneId)');
   db.run('CREATE INDEX IF NOT EXISTS idx_battery_audit_droneId ON battery_audit(droneId)');
+
+  console.log('✅ Database tables initialized');
 }

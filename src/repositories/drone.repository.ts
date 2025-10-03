@@ -1,4 +1,4 @@
-import { Drone, DroneState, DroneModel, Medication } from "../models";
+import { Drone, DroneModel, DroneState, Medication } from "../models";
 import { BaseRepository } from "./base.repository";
 
 export class DroneRepository extends BaseRepository<Drone> {
@@ -46,7 +46,15 @@ export class DroneRepository extends BaseRepository<Drone> {
     const row = await this.getQuery<any>(sql, [id]);
 
     if (!row) return null;
+    return this.mapRowToDrone(row);
+  }
 
+  // ADD THIS MISSING METHOD
+  async findBySerialNumber(serialNumber: string): Promise<Drone | null> {
+    const sql = "SELECT * FROM drones WHERE serialNumber = ?";
+    const row = await this.getQuery<any>(sql, [serialNumber]);
+
+    if (!row) return null;
     return this.mapRowToDrone(row);
   }
 
@@ -145,6 +153,11 @@ export class DroneRepository extends BaseRepository<Drone> {
     await this.runQuery(sql, [id]);
   }
 
+  async deleteAll(): Promise<void> {
+    const sql = "DELETE FROM drones";
+    await this.runQuery(sql);
+  }
+
   async getTotalLoadedWeight(droneId: string): Promise<number> {
     const sql =
       "SELECT COALESCE(SUM(weight), 0) as totalWeight FROM medications WHERE droneId = ?";
@@ -157,7 +170,7 @@ export class DroneRepository extends BaseRepository<Drone> {
       id: row.id,
       serialNumber: row.serialNumber,
       model: row.model as DroneModel,
-      weightLimit: row.weightLimit,
+      weightLimit: parseFloat(row.weightLimit),
       batteryCapacity: row.batteryCapacity,
       state: row.state as DroneState,
       medications: [], // Will be populated separately
@@ -170,7 +183,7 @@ export class DroneRepository extends BaseRepository<Drone> {
     return {
       id: row.id,
       name: row.name,
-      weight: row.weight,
+      weight: parseFloat(row.weight),
       code: row.code,
       image: row.image,
       droneId: row.droneId,
