@@ -18,8 +18,9 @@ db.on("open", async () => {
   app.listen(PORT, () => {
     console.log(`Drone Delivery API server running on port ${PORT}`);
     console.log(
-      `API Documentation available at http://localhost:${PORT}/api/health`
+      `API Documentation available at http://localhost:${PORT}/api/docs`
     );
+    console.log(`API health available at http://localhost:${PORT}/api/health`);
     console.log(`Battery monitoring task started (checks every 5 minutes)`);
   });
 });
