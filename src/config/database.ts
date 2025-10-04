@@ -1,8 +1,8 @@
-import { Database } from 'sqlite3';
-import path from 'path';
-import fs from 'fs';
+import { Database } from "sqlite3";
+import path from "path";
+import fs from "fs";
 
-const dbPath = path.join(process.cwd(), 'data', 'drones.db');
+const dbPath = path.join(process.cwd(), "data", "drones.db");
 
 // Ensure data directory exists
 const dataDir = path.dirname(dbPath);
@@ -12,9 +12,9 @@ if (!fs.existsSync(dataDir)) {
 
 export const db = new Database(dbPath, (err) => {
   if (err) {
-    console.error('Error opening database:', err.message);
+    console.error("Error opening database:", err.message);
   } else {
-    console.log('✅ Connected to SQLite database:', dbPath);
+    console.log("✅ Connected to SQLite database:", dbPath);
     initializeDatabase();
   }
 });
@@ -61,10 +61,16 @@ function initializeDatabase() {
   `);
 
   // Create indexes for better performance
-  db.run('CREATE INDEX IF NOT EXISTS idx_drones_state ON drones(state)');
-  db.run('CREATE INDEX IF NOT EXISTS idx_drones_battery ON drones(batteryCapacity)');
-  db.run('CREATE INDEX IF NOT EXISTS idx_medications_droneId ON medications(droneId)');
-  db.run('CREATE INDEX IF NOT EXISTS idx_battery_audit_droneId ON battery_audit(droneId)');
+  db.run("CREATE INDEX IF NOT EXISTS idx_drones_state ON drones(state)");
+  db.run(
+    "CREATE INDEX IF NOT EXISTS idx_drones_battery ON drones(batteryCapacity)",
+  );
+  db.run(
+    "CREATE INDEX IF NOT EXISTS idx_medications_droneId ON medications(droneId)",
+  );
+  db.run(
+    "CREATE INDEX IF NOT EXISTS idx_battery_audit_droneId ON battery_audit(droneId)",
+  );
 
-  console.log('✅ Database tables initialized');
+  console.log("✅ Database tables initialized");
 }

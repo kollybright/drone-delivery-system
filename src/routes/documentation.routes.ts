@@ -31,7 +31,7 @@ router.get("/", (req, res) => documentationController.getSwaggerUI(req, res));
  *               type: object
  */
 router.get("/openapi.json", (req, res) =>
-  documentationController.getSwaggerJson(req, res)
+  documentationController.getSwaggerJson(req, res),
 );
 
 export default router;

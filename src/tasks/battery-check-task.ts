@@ -1,12 +1,11 @@
 import { DroneRepository, BatteryAuditRepository } from "../repositories";
 
-
 export class BatteryCheckTask {
   private isRunning: boolean = false;
 
   constructor(
     private droneRepository: DroneRepository,
-    private batteryAuditRepository: BatteryAuditRepository
+    private batteryAuditRepository: BatteryAuditRepository,
   ) {}
 
   async start(): Promise<void> {
@@ -22,9 +21,12 @@ export class BatteryCheckTask {
     await this.checkAllDronesBattery();
 
     // Then run every 5 minutes
-    setInterval(async () => {
-      await this.checkAllDronesBattery();
-    }, 5 * 60 * 1000); // 5 minutes
+    setInterval(
+      async () => {
+        await this.checkAllDronesBattery();
+      },
+      5 * 60 * 1000,
+    ); // 5 minutes
   }
 
   async checkAllDronesBattery(): Promise<void> {
@@ -42,11 +44,11 @@ export class BatteryCheckTask {
         // Log low battery warnings
         if (drone.batteryCapacity < 25) {
           console.warn(
-            `LOW BATTERY: Drone ${drone.serialNumber} has ${drone.batteryCapacity}% battery`
+            `LOW BATTERY: Drone ${drone.serialNumber} has ${drone.batteryCapacity}% battery`,
           );
         } else {
           console.log(
-            `Drone ${drone.serialNumber} battery level: ${drone.batteryCapacity}%`
+            `Drone ${drone.serialNumber} battery level: ${drone.batteryCapacity}%`,
           );
         }
       }
@@ -64,8 +66,7 @@ export class BatteryCheckTask {
   }
 }
 
-
 export const batteryCheckTask = new BatteryCheckTask(
   new DroneRepository(),
-  new BatteryAuditRepository()
+  new BatteryAuditRepository(),
 );

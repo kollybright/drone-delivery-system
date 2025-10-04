@@ -2,9 +2,8 @@ import { DroneModel, DroneState } from "../models";
 import { DroneRepository, MedicationRepository } from "../repositories";
 import { MedicationService } from "../services";
 
-
 export async function seedDatabase(): Promise<void> {
-  console.log('Seeding database with initial data...');
+  console.log("Seeding database with initial data...");
 
   const droneRepository = new DroneRepository();
   const medicationRepository = new MedicationRepository();
@@ -13,92 +12,132 @@ export async function seedDatabase(): Promise<void> {
   // Sample drones
   const drones = [
     {
-      serialNumber: 'DRN001-LIGHT-001',
+      serialNumber: "DRN001-LIGHT-001",
       model: DroneModel.LIGHTWEIGHT,
       weightLimit: 200,
       batteryCapacity: 100,
-      state: DroneState.IDLE
+      state: DroneState.IDLE,
     },
     {
-      serialNumber: 'DRN002-LIGHT-002',
+      serialNumber: "DRN002-LIGHT-002",
       model: DroneModel.LIGHTWEIGHT,
       weightLimit: 200,
       batteryCapacity: 85,
-      state: DroneState.IDLE
+      state: DroneState.IDLE,
     },
     {
-      serialNumber: 'DRN003-MIDDLE-001',
+      serialNumber: "DRN003-MIDDLE-001",
       model: DroneModel.MIDDLEWEIGHT,
       weightLimit: 300,
       batteryCapacity: 75,
-      state: DroneState.LOADING
+      state: DroneState.LOADING,
     },
     {
-      serialNumber: 'DRN004-MIDDLE-002',
+      serialNumber: "DRN004-MIDDLE-002",
       model: DroneModel.MIDDLEWEIGHT,
       weightLimit: 300,
       batteryCapacity: 50,
-      state: DroneState.IDLE
+      state: DroneState.IDLE,
     },
     {
-      serialNumber: 'DRN005-CRUISER-001',
+      serialNumber: "DRN005-CRUISER-001",
       model: DroneModel.CRUISERWEIGHT,
       weightLimit: 400,
       batteryCapacity: 100,
-      state: DroneState.LOADED
+      state: DroneState.LOADED,
     },
     {
-      serialNumber: 'DRN006-CRUISER-002',
+      serialNumber: "DRN006-CRUISER-002",
       model: DroneModel.CRUISERWEIGHT,
       weightLimit: 400,
       batteryCapacity: 20, // Low battery for testing
-      state: DroneState.IDLE
+      state: DroneState.IDLE,
     },
     {
-      serialNumber: 'DRN007-HEAVY-001',
+      serialNumber: "DRN007-HEAVY-001",
       model: DroneModel.HEAVYWEIGHT,
       weightLimit: 500,
       batteryCapacity: 90,
-      state: DroneState.DELIVERING
+      state: DroneState.DELIVERING,
     },
     {
-      serialNumber: 'DRN008-HEAVY-002',
+      serialNumber: "DRN008-HEAVY-002",
       model: DroneModel.HEAVYWEIGHT,
       weightLimit: 500,
       batteryCapacity: 60,
-      state: DroneState.IDLE
+      state: DroneState.IDLE,
     },
     {
-      serialNumber: 'DRN009-HEAVY-003',
+      serialNumber: "DRN009-HEAVY-003",
       model: DroneModel.HEAVYWEIGHT,
       weightLimit: 500,
       batteryCapacity: 30,
-      state: DroneState.RETURNING
+      state: DroneState.RETURNING,
     },
     {
-      serialNumber: 'DRN010-LIGHT-003',
+      serialNumber: "DRN010-LIGHT-003",
       model: DroneModel.LIGHTWEIGHT,
       weightLimit: 200,
       batteryCapacity: 15, // Very low battery
-      state: DroneState.IDLE
-    }
+      state: DroneState.IDLE,
+    },
   ];
 
   // Sample medications
   const medications = [
-    { name: 'Paracetamol-500mg', weight: 50, code: 'PARA_500', image: 'paracetamol.jpg' },
-    { name: 'Amoxicillin-250mg', weight: 75, code: 'AMOX_250', image: 'amoxicillin.jpg' },
-    { name: 'Ibuprofen-400mg', weight: 60, code: 'IBU_400', image: 'ibuprofen.jpg' },
-    { name: 'Vitamin-C-1000mg', weight: 40, code: 'VITC_1000', image: 'vitamin_c.jpg' },
-    { name: 'Aspirin-100mg', weight: 45, code: 'ASP_100', image: 'aspirin.jpg' },
-    { name: 'Insulin-Pen', weight: 80, code: 'INSULIN_PEN', image: 'insulin.jpg' },
-    { name: 'Antiseptic-Cream', weight: 55, code: 'ANTI_CR', image: 'antiseptic.jpg' },
-    { name: 'Bandage-Sterile', weight: 30, code: 'BAND_ST', image: 'bandage.jpg' }
+    {
+      name: "Paracetamol-500mg",
+      weight: 50,
+      code: "PARA_500",
+      image: "paracetamol.jpg",
+    },
+    {
+      name: "Amoxicillin-250mg",
+      weight: 75,
+      code: "AMOX_250",
+      image: "amoxicillin.jpg",
+    },
+    {
+      name: "Ibuprofen-400mg",
+      weight: 60,
+      code: "IBU_400",
+      image: "ibuprofen.jpg",
+    },
+    {
+      name: "Vitamin-C-1000mg",
+      weight: 40,
+      code: "VITC_1000",
+      image: "vitamin_c.jpg",
+    },
+    {
+      name: "Aspirin-100mg",
+      weight: 45,
+      code: "ASP_100",
+      image: "aspirin.jpg",
+    },
+    {
+      name: "Insulin-Pen",
+      weight: 80,
+      code: "INSULIN_PEN",
+      image: "insulin.jpg",
+    },
+    {
+      name: "Antiseptic-Cream",
+      weight: 55,
+      code: "ANTI_CR",
+      image: "antiseptic.jpg",
+    },
+    {
+      name: "Bandage-Sterile",
+      weight: 30,
+      code: "BAND_ST",
+      image: "bandage.jpg",
+    },
   ];
 
   try {
     // Clear existing data for clean seeding (optional)
-    console.log('Clearing existing data...');
+    console.log("Clearing existing data...");
     await medicationRepository.deleteAll();
     await droneRepository.deleteAll();
 
@@ -110,9 +149,11 @@ export async function seedDatabase(): Promise<void> {
         createdDrones.push(drone);
         console.log(`Created drone: ${drone.serialNumber}`);
       } catch (error: any) {
-        if (error.message.includes('UNIQUE constraint failed')) {
+        if (error.message.includes("UNIQUE constraint failed")) {
           // Drone already exists, find it
-          const existingDrone = await droneRepository.findBySerialNumber(droneData.serialNumber);
+          const existingDrone = await droneRepository.findBySerialNumber(
+            droneData.serialNumber,
+          );
           if (existingDrone) {
             createdDrones.push(existingDrone);
             console.log(`Drone already exists: ${droneData.serialNumber}`);
@@ -125,38 +166,37 @@ export async function seedDatabase(): Promise<void> {
 
     // Load some medications onto specific drones
     if (createdDrones.length >= 3) {
-      console.log('Loading medications onto drones...');
-      
+      console.log("Loading medications onto drones...");
+
       // Load medications onto first drone
       await medicationService.createMedication({
         ...medications[0],
-        droneId: createdDrones[0].id
+        droneId: createdDrones[0].id,
       });
-      
+
       await medicationService.createMedication({
         ...medications[1],
-        droneId: createdDrones[0].id
+        droneId: createdDrones[0].id,
       });
 
       // Load medications onto third drone
       await medicationService.createMedication({
         ...medications[2],
-        droneId: createdDrones[2].id
+        droneId: createdDrones[2].id,
       });
 
       await medicationService.createMedication({
         ...medications[3],
-        droneId: createdDrones[2].id
+        droneId: createdDrones[2].id,
       });
 
-      console.log('Loaded sample medications onto drones');
+      console.log("Loaded sample medications onto drones");
     }
 
-    console.log('Database seeded successfully!');
+    console.log("Database seeded successfully!");
     console.log(`Created/verified ${createdDrones.length} drones`);
     console.log(`Created ${medications.length} medication types`);
-    
   } catch (error) {
-    console.error('Error seeding database:', error);
+    console.error("Error seeding database:", error);
   }
 }

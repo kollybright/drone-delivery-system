@@ -5,7 +5,7 @@ export class MedicationService {
   constructor(private medicationRepository: MedicationRepository) {}
 
   async createMedication(
-    medicationData: Partial<Medication>
+    medicationData: Partial<Medication>,
   ): Promise<Medication> {
     // Validate medication name
     if (!medicationData?.name) {
@@ -17,14 +17,14 @@ export class MedicationService {
 
     if (!this.isValidMedicationName(medicationData.name)) {
       throw new Error(
-        "Medication name can only contain letters, numbers, hyphens, and underscores"
+        "Medication name can only contain letters, numbers, hyphens, and underscores",
       );
     }
 
     // Validate medication code
     if (!this.isValidMedicationCode(medicationData.code)) {
       throw new Error(
-        "Medication code can only contain uppercase letters, underscores, and numbers"
+        "Medication code can only contain uppercase letters, underscores, and numbers",
       );
     }
 
@@ -37,14 +37,14 @@ export class MedicationService {
   }
 
   async validateMedicationData(
-    medicationData: Partial<Medication>
+    medicationData: Partial<Medication>,
   ): Promise<void> {
     if (
       medicationData.name &&
       !this.isValidMedicationName(medicationData.name)
     ) {
       throw new Error(
-        "Medication name can only contain letters, numbers, hyphens, and underscores"
+        "Medication name can only contain letters, numbers, hyphens, and underscores",
       );
     }
 
@@ -53,11 +53,11 @@ export class MedicationService {
       !this.isValidMedicationCode(medicationData.code)
     ) {
       throw new Error(
-        "Medication code can only contain uppercase letters, underscores, and numbers"
+        "Medication code can only contain uppercase letters, underscores, and numbers",
       );
     }
 
-    if (medicationData.weight && medicationData.weight <= 0) {
+    if (medicationData.weight !== undefined && medicationData.weight <= 0) {
       throw new Error("Medication weight must be a positive number");
     }
   }

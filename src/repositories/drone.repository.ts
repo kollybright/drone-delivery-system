@@ -67,7 +67,7 @@ export class DroneRepository extends BaseRepository<Drone> {
     const medicationRows = await this.allQuery<any>(medicationsSql, [id]);
 
     drone.medications = medicationRows.map((row) =>
-      this.mapRowToMedication(row)
+      this.mapRowToMedication(row),
     );
 
     return drone;
@@ -87,11 +87,11 @@ export class DroneRepository extends BaseRepository<Drone> {
           drone.id,
         ]);
         drone.medications = medicationRows.map((medRow) =>
-          this.mapRowToMedication(medRow)
+          this.mapRowToMedication(medRow),
         );
 
         return drone;
-      })
+      }),
     );
   }
 

@@ -1,4 +1,4 @@
-import { db } from "../config";
+import { db } from "../config/database";
 
 export abstract class BaseRepository<T> {
   protected tableName: string;
@@ -9,7 +9,7 @@ export abstract class BaseRepository<T> {
 
   protected runQuery(sql: string, params: any[] = []): Promise<void> {
     return new Promise((resolve, reject) => {
-      db.run(sql, params, function (err: any) {
+      db.run(sql, params, function (err) {
         if (err) {
           reject(err);
         } else {
@@ -21,10 +21,10 @@ export abstract class BaseRepository<T> {
 
   protected getQuery<T>(
     sql: string,
-    params: any[] = []
+    params: any[] = [],
   ): Promise<T | undefined> {
     return new Promise((resolve, reject) => {
-      db.get(sql, params, (err: any, row: T) => {
+      db.get(sql, params, (err, row) => {
         if (err) {
           reject(err);
         } else {
@@ -36,7 +36,7 @@ export abstract class BaseRepository<T> {
 
   protected allQuery<T>(sql: string, params: any[] = []): Promise<T[]> {
     return new Promise((resolve, reject) => {
-      db.all(sql, params, (err: any, rows: T[]) => {
+      db.all(sql, params, (err, rows) => {
         if (err) {
           reject(err);
         } else {

@@ -1,2 +1,2 @@
-export * from  './drone.model';
-export * from './medication.model'
+export * from "./drone.model";
+export * from "./medication.model";

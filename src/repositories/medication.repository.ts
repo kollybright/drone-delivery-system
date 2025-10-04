@@ -65,7 +65,7 @@ export class MedicationRepository extends BaseRepository<Medication> {
 
   async update(
     id: string,
-    updateData: Partial<Medication>
+    updateData: Partial<Medication>,
   ): Promise<Medication> {
     const currentMedication = await this.findById(id);
     if (!currentMedication) {

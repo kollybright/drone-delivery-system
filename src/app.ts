@@ -30,7 +30,7 @@ app.use(
     noSniff: true, //  X-Content-Type-Options
     hidePoweredBy: true, //  remove X-Powered-By
     xssFilter: true, // legacy XSS filter (optional, safe)
-  })
+  }),
 );
 
 // CORS configuration
@@ -39,7 +39,7 @@ app.use(
     origin: process.env["CORS_ORIGIN"] || "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
-  })
+  }),
 );
 
 // Logging middleware
@@ -67,7 +67,7 @@ app.use(
     error: any,
     req: express.Request,
     res: express.Response,
-    next: express.NextFunction
+    next: express.NextFunction,
   ) => {
     console.error("Unhandled error:", error);
 
@@ -92,7 +92,7 @@ app.use(
       error: message,
       documentation: "/api/docs",
     });
-  }
+  },
 );
 
 export default app;

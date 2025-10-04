@@ -10,8 +10,12 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
+    "test:unit": "jest tests/unit",
+    "test:integration": "jest tests/integration",
+    "test:verbose": "jest --verbose",
     "clean": "rm -rf dist",
-    "seed": "ts-node src/config/data.seed.ts"
+    "seed": "ts-node src/config/data.seed.ts",
+    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\""
   },
   "keywords": [
     "drone",
@@ -28,6 +32,7 @@
     "helmet": "^7.0.0",
     "marked": "^9.1.2",
     "morgan": "^1.10.0",
+    "prettier": "^3.6.2",
     "rapidoc": "^9.3.8",
     "sqlite3": "^5.1.6",
     "swagger-jsdoc": "^6.2.8",

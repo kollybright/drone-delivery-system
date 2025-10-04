@@ -115,7 +115,7 @@ router.get("/", (req, res) => droneController.getAllDrones(req, res));
  *                         $ref: '#/components/schemas/Drone'
  */
 router.get("/available", (req, res) =>
-  droneController.getAvailableDrones(req, res)
+  droneController.getAvailableDrones(req, res),
 );
 
 /**
@@ -187,7 +187,7 @@ router.get("/:droneId", (req, res) => droneController.getDroneById(req, res));
  *         $ref: '#/components/responses/NotFound'
  */
 router.post("/:droneId/load", (req, res) =>
-  droneController.loadMedication(req, res)
+  droneController.loadMedication(req, res),
 );
 
 /**
@@ -216,7 +216,7 @@ router.post("/:droneId/load", (req, res) =>
  *         $ref: '#/components/responses/NotFound'
  */
 router.get("/:droneId/medications", (req, res) =>
-  droneController.getLoadedMedications(req, res)
+  droneController.getLoadedMedications(req, res),
 );
 
 /**
@@ -243,7 +243,7 @@ router.get("/:droneId/medications", (req, res) =>
  *         $ref: '#/components/responses/NotFound'
  */
 router.get("/:droneId/battery", (req, res) =>
-  droneController.getBatteryLevel(req, res)
+  droneController.getBatteryLevel(req, res),
 );
 
 /**
@@ -285,7 +285,7 @@ router.get("/:droneId/battery", (req, res) =>
  *         $ref: '#/components/responses/NotFound'
  */
 router.patch("/:droneId/state", (req, res) =>
-  droneController.updateDroneState(req, res)
+  droneController.updateDroneState(req, res),
 );
 
 export default router;
