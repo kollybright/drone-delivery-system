@@ -3,6 +3,7 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import routes from "./routes";
+import { errorHandler, handleErrorMiddleWare } from "./utils";
 
 const app = express();
 
@@ -13,7 +14,13 @@ app.use(
       useDefaults: true,
       directives: {
         "default-src": ["'self'"],
-        "script-src": ["'self'", "cdn.jsdelivr.net", "unpkg.com", "blob:"],
+        "script-src": [
+          "'self'",
+          "cdn.jsdelivr.net",
+          "unpkg.com",
+          "blob:",
+          "'unsafe-inline'",
+        ],
         "worker-src": ["'self'", "blob:"],
         "style-src": [
           "'self'",
@@ -54,45 +61,10 @@ app.use("/api", routes);
 
 // 404 handler for undefined routes
 app.use("*", (req, res) => {
-  res.status(404).json({
-    success: false,
-    error: `Route ${req.originalUrl} not found`,
-    documentation: "/api/docs",
-  });
+  res.status(404).json(errorHandler(`Route ${req.originalUrl} not found`, 404));
 });
 
 // Global error handling middleware
-app.use(
-  (
-    error: any,
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction,
-  ) => {
-    console.error("Unhandled error:", error);
-
-    let statusCode = 500;
-    let message = "Internal server error";
-
-    if (error instanceof SyntaxError && "body" in error) {
-      statusCode = 400;
-      message = "Invalid JSON in request body";
-    } else if (error.code === "SQLITE_CONSTRAINT") {
-      statusCode = 400;
-      message = "Database constraint violation";
-    } else if (error.statusCode) {
-      statusCode = error.statusCode;
-      message = error.message;
-    } else if (error.message) {
-      message = error.message;
-    }
-
-    res.status(statusCode).json({
-      success: false,
-      error: message,
-      documentation: "/api/docs",
-    });
-  },
-);
+app.use(handleErrorMiddleWare);
 
 export default app;

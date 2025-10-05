@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { DroneService } from "../services";
+import { successHandler, errorHandler } from "../utils";
 
 export class DroneController {
   constructor(private droneService: DroneService) {}
@@ -10,16 +11,11 @@ export class DroneController {
   async registerDrone(req: Request, res: Response): Promise<void> {
     try {
       const drone = await this.droneService.registerDrone(req.body);
-      res.status(201).json({
-        success: true,
-        message: "Drone registered successfully",
-        data: drone,
-      });
+      res
+        .status(201)
+        .json(successHandler("Drone registered successfully", drone));
     } catch (error: any) {
-      res.status(400).json({
-        success: false,
-        error: error.message,
-      });
+      res.status(400).json(errorHandler(error.message, 400));
     }
   }
 
@@ -29,15 +25,9 @@ export class DroneController {
   async getAllDrones(req: Request, res: Response): Promise<void> {
     try {
       const drones = await this.droneService.getAllDrones();
-      res.json({
-        success: true,
-        data: drones,
-      });
+      res.json(successHandler("Drones fetched successfully", drones));
     } catch (error: any) {
-      res.status(500).json({
-        success: false,
-        error: error.message,
-      });
+      res.status(500).json(errorHandler(error.message, 500));
     }
   }
 
@@ -50,22 +40,13 @@ export class DroneController {
       const drone = await this.droneService.getDroneById(droneId);
 
       if (!drone) {
-        res.status(404).json({
-          success: false,
-          error: "Drone not found",
-        });
+        res.status(404).json(errorHandler("Drone not found", 404));
         return;
       }
 
-      res.json({
-        success: true,
-        data: drone,
-      });
+      res.json(successHandler("Drone fetched successfully", drone));
     } catch (error: any) {
-      res.status(400).json({
-        success: false,
-        error: error.message,
-      });
+      res.status(400).json(errorHandler(error.message, 400));
     }
   }
 
@@ -77,16 +58,9 @@ export class DroneController {
       const { droneId } = req.params;
       const result = await this.droneService.loadMedication(droneId, req.body);
 
-      res.json({
-        success: true,
-        message: "Medication loaded successfully",
-        data: result,
-      });
+      res.json(successHandler("Medication loaded successfully", result));
     } catch (error: any) {
-      res.status(400).json({
-        success: false,
-        error: error.message,
-      });
+      res.status(400).json(errorHandler(error.message, 400));
     }
   }
 
@@ -98,15 +72,11 @@ export class DroneController {
       const { droneId } = req.params;
       const medications = await this.droneService.getLoadedMedications(droneId);
 
-      res.json({
-        success: true,
-        data: medications,
-      });
+      res.json(
+        successHandler("Loaded medications fetched successfully", medications),
+      );
     } catch (error: any) {
-      res.status(400).json({
-        success: false,
-        error: error.message,
-      });
+      res.status(400).json(errorHandler(error.message, 400));
     }
   }
 
@@ -116,15 +86,9 @@ export class DroneController {
   async getAvailableDrones(req: Request, res: Response): Promise<void> {
     try {
       const drones = await this.droneService.getAvailableDrones();
-      res.json({
-        success: true,
-        data: drones,
-      });
+      res.json(successHandler("Available drones fetched successfully", drones));
     } catch (error: any) {
-      res.status(500).json({
-        success: false,
-        error: error.message,
-      });
+      res.status(500).json(errorHandler(error.message, 500));
     }
   }
 
@@ -137,28 +101,23 @@ export class DroneController {
       const batteryLevel =
         await this.droneService.getDroneBatteryLevel(droneId);
 
-      if (!batteryLevel) {
-        res.status(404).json({
-          success: false,
-          error: "Battery not found",
-        });
-
+      if (batteryLevel === null || batteryLevel === undefined) {
+        res
+          .status(404)
+          .json(errorHandler("Battery information not found", 404));
         return;
       }
 
-      res.json({
-        success: true,
-        data: {
+      const status = batteryLevel < 25 ? "LOW_BATTERY" : "OK";
+      res.json(
+        successHandler("Drone battery level fetched successfully", {
           droneId,
           batteryLevel,
-          status: batteryLevel < 25 ? "LOW_BATTERY" : "OK",
-        },
-      });
+          status,
+        }),
+      );
     } catch (error: any) {
-      res.status(400).json({
-        success: false,
-        error: error.message,
-      });
+      res.status(400).json(errorHandler(error.message, 400));
     }
   }
 
@@ -169,19 +128,11 @@ export class DroneController {
     try {
       const { droneId } = req.params;
       const { state } = req.body;
-
       const drone = await this.droneService.updateDroneState(droneId, state);
 
-      res.json({
-        success: true,
-        message: "Drone state updated successfully",
-        data: drone,
-      });
+      res.json(successHandler("Drone state updated successfully", drone));
     } catch (error: any) {
-      res.status(400).json({
-        success: false,
-        error: error.message,
-      });
+      res.status(400).json(errorHandler(error.message, 400));
     }
   }
 }

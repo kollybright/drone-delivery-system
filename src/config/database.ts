@@ -14,7 +14,7 @@ export const db = new Database(dbPath, (err) => {
   if (err) {
     console.error("Error opening database:", err.message);
   } else {
-    console.log("✅ Connected to SQLite database:", dbPath);
+    console.log("Connected to SQLite database:", dbPath);
     initializeDatabase();
   }
 });
@@ -72,5 +72,5 @@ function initializeDatabase() {
     "CREATE INDEX IF NOT EXISTS idx_battery_audit_droneId ON battery_audit(droneId)",
   );
 
-  console.log("✅ Database tables initialized");
+  console.log("Database tables initialized");
 }

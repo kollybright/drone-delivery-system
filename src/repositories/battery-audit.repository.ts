@@ -1,11 +1,5 @@
+import { BatteryAudit } from "../models";
 import { BaseRepository } from "./base.repository";
-
-export interface BatteryAudit {
-  id: string;
-  droneId: string;
-  batteryLevel: number;
-  checkTime: Date;
-}
 
 export class BatteryAuditRepository extends BaseRepository<BatteryAudit> {
   constructor() {

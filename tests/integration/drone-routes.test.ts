@@ -14,18 +14,18 @@ describe("Drone Routes Integration Tests", () => {
     medicationRepository = new MedicationRepository();
   });
 
-//   beforeEach(async () => {
-//     // Clean up before each test
-//     await new Promise<void>((resolve) => {
-//       db.serialize(() => {
-//         db.run("DELETE FROM medications", () => {
-//           db.run("DELETE FROM drones", () => {
-//             resolve();
-//           });
-//         });
-//       });
-//     });
-//   });
+  //   beforeEach(async () => {
+  //     // Clean up before each test
+  //     await new Promise<void>((resolve) => {
+  //       db.serialize(() => {
+  //         db.run("DELETE FROM medications", () => {
+  //           db.run("DELETE FROM drones", () => {
+  //             resolve();
+  //           });
+  //         });
+  //       });
+  //     });
+  //   });
 
   describe("POST /api/drones", () => {
     test("should register a new drone", async () => {

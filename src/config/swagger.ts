@@ -13,10 +13,6 @@ const options: swaggerJSDoc.Options = {
         name: "Blusalt Support",
         email: "hr@blusalt.net",
       },
-      license: {
-        name: "MIT",
-        url: "https://opensource.org/licenses/MIT",
-      },
     },
     servers: [
       {
